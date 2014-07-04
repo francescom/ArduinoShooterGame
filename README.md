@@ -1,7 +1,7 @@
 ArduinoShooterGame
 ==================
 
-A shooting game with Arduino, a joistick shield and a 32X16 RG Bicolor LED Dot Matrix Display (HT1632C based)
+A simple shooting game with Arduino, a joystick shield and a 32X16 RG Bicolor LED Dot Matrix Display (HT1632C based)
 
 
 Requires flavio-fernandes branch of the HT1632-for-Arduino library
