@@ -1,3 +1,7 @@
+#define prog_char const char PROGMEM
+const char audioPin=8;
+
+
 #ifndef GAME
 #define GAME
 

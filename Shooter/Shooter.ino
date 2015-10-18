@@ -1,3 +1,5 @@
+#define prog_char const char PROGMEM
+
 
 #include <HT1632.h>
 
@@ -8,8 +10,8 @@
 
 const int xAxis = A0;         // joystick X axis
 const int yAxis = A1;         // joystick Y axis
-char butnR=3, butnT=4, butnB=5, butnL=6;
-char butnJ=2;
+const char butnR=3, butnT=4, butnB=5, butnL=6;
+const char butnJ=2;
 int xValue;
 int yValue;
 
@@ -49,6 +51,10 @@ void loop() {
  
   xValue=analogRead(xAxis)-512;
   yValue=-analogRead(yAxis)+512;
+  
+  Serial.print(xValue);
+  Serial.print(", ");
+  Serial.println(yValue);
   
   btnJPress=btnJPress || (digitalRead(butnJ) == LOW);
   btnLPress=btnLPress || (digitalRead(butnL) == LOW);

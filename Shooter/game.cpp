@@ -1,3 +1,6 @@
+#define prog_char const char PROGMEM
+
+
 #include <HT1632.h>
 #include <font_5x4.h>
 
@@ -55,6 +58,57 @@ void renderSprites() {
     HT1632.render();
     HT1632.drawTarget(BUFFER_BOARD(2));
     HT1632.render();
+}
+
+void playNote(unsigned int frequency) {
+  tone(audioPin,frequency,100);
+}
+
+void playShot() {
+  playNote(220);
+  delay(50);
+  playNote(250);
+}
+void playShotHits() {
+  playNote(440);
+  delay(20);
+  playNote(340);
+}
+void playShotHitsAndKills() {
+  playNote(550);
+  delay(20);
+  playNote(440);
+}
+void playNewEnemy() {
+  playNote(180);
+}
+void playNewEnemyLeft() {
+  playNewEnemy();
+}
+void playNewEnemyRight() {
+  playNewEnemy();
+}
+void playGotHit() {
+  playNote(1960);
+  delay(100);
+  playNote(880);
+  delay(100);
+  playNote(440);
+  delay(100);
+  playNote(220);
+}
+void playGotHitAndKilled() {
+  playNote(1960);
+  delay(100);
+  playNote(880);
+  delay(100);
+  playNote(440);
+  delay(100);
+  playNote(220);
+  delay(100);
+  playNote(1960);
+  delay(100);
+  playNote(880);
 }
 
 void gameSetup() {
@@ -192,7 +246,11 @@ void gameLoop(int xValue,int yValue,boolean btnJPress,boolean btnLPress,boolean 
                 enemies[i].active=false;
                 score+=30;
                 // SOUND
-              }
+                playShotHitsAndKills();
+              } else {
+                // SOUND
+                playShotHits();
+             }
             }
           }
         }
@@ -201,11 +259,14 @@ void gameLoop(int xValue,int yValue,boolean btnJPress,boolean btnLPress,boolean 
           lastEnemyCreatCounter=50;
           x=y=0;
           delay(200);
-          // SOUND
           lives--;
           if(lives<=0) {
             gameStatus=10;
             // SOUND
+            playGotHitAndKilled();
+          } else {
+            // SOUND
+            playGotHit();
           }
         }
         
@@ -217,9 +278,11 @@ void gameLoop(int xValue,int yValue,boolean btnJPress,boolean btnLPress,boolean 
       if(random(0,2)<1) {
         enemies[firstFreeEnemy].x=18;
         enemies[firstFreeEnemy].dirX=-1;
+        playNewEnemyRight();
       } else {
         enemies[firstFreeEnemy].x=-18;
         enemies[firstFreeEnemy].dirX=1;
+        playNewEnemyLeft();
       }
       enemies[firstFreeEnemy].dirY=random(0,3)-1;
       enemies[firstFreeEnemy].energy=random(1,3);
@@ -235,6 +298,8 @@ void gameLoop(int xValue,int yValue,boolean btnJPress,boolean btnLPress,boolean 
       shots[firstFreeShot].y=y/2-z/2;
       shots[firstFreeShot].dir=1;
       lastShotCounter=SHOT_INTERVAL;
+      
+      playShot();
     }
 
     if(btnLPress && firstFreeShot!=-1 && lastShotCounter<=0) {
@@ -243,6 +308,8 @@ void gameLoop(int xValue,int yValue,boolean btnJPress,boolean btnLPress,boolean 
       shots[firstFreeShot].y=y/2-z/2;
       shots[firstFreeShot].dir=-1;
       lastShotCounter=SHOT_INTERVAL;
+      
+      playShot();
     }
 
     

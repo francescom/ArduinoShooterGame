@@ -1,3 +1,6 @@
+
+#define prog_char const char PROGMEM
+
 #ifndef SPRITES
 #define SPRITES
 
